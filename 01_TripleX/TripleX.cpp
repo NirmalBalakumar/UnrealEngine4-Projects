@@ -1,0 +1,63 @@
+#include <iostream>
+#include <ctime>
+
+void PrintIntroduction(int Difficulty)
+{
+    std::cout << "\n\nYou are a secret agent breaking into a Level " << Difficulty << " secure server room";
+    std::cout << " \nEnter the correct code to continue..";
+}
+
+bool PlayGame(int Difficulty)
+{
+    PrintIntroduction(Difficulty);
+
+    const int CodeA = rand() % Difficulty + Difficulty;
+    const int CodeB = rand() % Difficulty + Difficulty;
+    const int CodeC = rand() % Difficulty + Difficulty;
+
+    const int CodeSum = CodeA + CodeB + CodeC;
+    const int CodeProduct = CodeA * CodeB * CodeC;
+
+    std::cout << std::endl;
+    std::cout << "+ There are 3 numbers in the code\n";
+    std::cout << "+ The codes add-up to: " << CodeSum;
+    std::cout << "\n+ The codes multiply to give: " << CodeProduct << std::endl;
+
+    int GuessA, GuessB, GuessC;
+    std::cin >> GuessA >> GuessB >> GuessC; 
+
+    int GuessSum = GuessA + GuessB + GuessC;
+    int GuessProduct = GuessA * GuessB * GuessC;
+
+    if(GuessSum == CodeSum && GuessProduct == CodeProduct)
+    {    std::cout << "\n*** Well done agent! You have extracted the file. Keep going! ***";
+        return true;
+    }
+    else 
+    {    std::cout << "\n*** Careful agent you have entered the wrong code, try again! ***";
+        return false;
+    }
+}
+
+int main()
+{
+    srand(time(NULL));
+
+    int LevelDifficulty = 1;
+    const int MaxLevel = 5;
+    while(LevelDifficulty <= MaxLevel)
+    {
+        bool bLevelComplete = PlayGame(LevelDifficulty);
+        std::cin.clear(); //Clears any errors
+        std::cin.ignore(); //Discards the buffer
+
+        if(bLevelComplete)
+        {
+            LevelDifficulty++;
+        }
+    }
+
+    std::cout << "\n*** Great work agent you got all the files, now get out of there! ***";
+
+    return 0;
+}
